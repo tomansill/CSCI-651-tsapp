@@ -1,0 +1,37 @@
+Submission Guidelines
+	Submit a single archive (zip/tar/tar.gz/rar) containing the following directory structure and contents
+		/mhvcs			- top level directory (no files)
+		/mhvcs/src		- *.java/*.c/*.cpp files for your program
+		/mhvcs/doc		- any readme/documentation files
+		/mhvcs/bld		- *.class/*.o/*.exe or other executable files derived from source files. This is the directory from which the command lines will be executed to grade the project.
+		/mhvcs/bld/feedback	- output files generated for grading comparison
+
+	Substitute MY RIT username (mhvcs) with YOUR RIT username!
+
+
+Use Cases
+
+	[1] Origin server, single UDP client query
+		Simple retrieval request.
+	1. tsapp -s -T 5 5000 5001
+	2. tsapp -c localhost 5000
+
+	[2] Origin server, single client TCP modify server time
+		Simple set time request verified by follow on retrieval.
+	1. tsapp -s -T 5 --user usr --pass pw 5000 5001
+	2. tsapp -c localhost -T 99 --user usr --pass pw -t 5001
+	3. tsapp -c localhost 5000
+
+	[3] Origin server, pass through Proxy server, UDP client query loop
+		Retrieval request through proxy server, verify UDP and TCP.
+	1. tsapp -s -T 5 --user usr --pass pw 5000 5001
+	2. tsapp -p localhost --proxy-udp 5000 --proxy-tcp 5001 4000 4001
+	3. tsapp -c localhost -n 10 -u 4000
+	4. tsapp -c localhost -n 10 -t 4001
+
+	[4] Origin server, TCP only Proxy server, UDP client query; user wants UTC
+		Retrieval request through proxy server verifying time format and 
+		protocol switchover (UDP client-proxy, TCP proxy-server).
+	1. tsapp -s -T 5 --user usr --pass pw 5000 5001
+	2. tsapp -p localhost -t --proxy-tcp 5001 4000 4001
+	3. tsapp -c localhost -z -u 4000

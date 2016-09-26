@@ -1,0 +1,211 @@
+Thomas Ansill
+CSCI-651-03
+Project 1
+
+Compile the tsapp.java with Java Compiler
+
+More documentation can be found in the source code
+
+getTime Message
+
+  0                   1                   2                   3
+  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | type          | unused                                        |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | unused                                                        |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | Internet Header + 64 bits of Original Data Datagram           |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+    IP Fields:
+    
+    Destination Address
+    
+        The source network and address from the original datagram's data.
+    
+    ICMP Fields:
+
+    Type
+    
+        'g' a flag to indicate getTime method
+    
+    Internet Header + 64 bits of Data Datagram
+    
+        The internet header plus the first 64 bits of the original
+        datagram's data. This data is used by the host to match the
+        message to the appropriate process. If a higher level protocol
+        uses port numbers, they are assumed to be in the first 64 data
+        bits of the original datagram's data.
+
+    Description
+    
+        This message simply activate the receiver's sendTime action.
+
+setTime Message
+
+  0                   1                   2                   3
+  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | type          | time                                          |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | time                                                          |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | time          |  username  |  password   |                    |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | Internet Header + 64 bits of Original Data Datagram           |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+    IP Fields:
+    
+    Destination Address
+    
+        The source network and address from the original datagram's data.
+    
+    ICMP Fields:
+
+    Type
+    
+        'T' a flag to indicate setTime method
+        
+    Time
+    
+        8 bytes Integer of unix epoch time format
+        
+    Username
+    
+        Terminated UTF String
+        
+    Password
+    
+        Terminated UTF String
+    
+    Internet Header + 64 bits of Data Datagram
+    
+        The internet header plus the first 64 bits of the original
+        datagram's data. This data is used by the host to match the
+        message to the appropriate process. If a higher level protocol
+        uses port numbers, they are assumed to be in the first 64 data
+        bits of the original datagram's data.   
+    
+    Description
+    
+        This message sets the receiver's time with included time in UNIX epoch format and activates the receiver's timeChangeStatus action.
+    
+sendTime Message
+
+  0                   1                   2                   3
+  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | type          | time                                          |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | time                                                          |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | time          |  hops                                         |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | hops          | triptime                                      |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | time                                                          |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | time          |  strRTT                                       |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | Internet Header + 64 bits of Original Data Datagram           |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+    IP Fields:
+    
+    Destination Address
+    
+    The source network and address from the original datagram's data.
+    
+    ICMP Fields:
+
+    Type
+    
+        't' a flag to indicate sendTime method
+        
+    Time
+    
+        8 bytes Integer of unix epoch time format
+        
+    Hops
+    
+        4 bytes Integer of number of hops
+        
+    TripTime
+    
+        8 bytes Integer of unix epoch time format
+        
+    StrRTT
+    
+        Terminated UTF String
+    
+    Internet Header + 64 bits of Data Datagram
+    
+        The internet header plus the first 64 bits of the original
+        datagram's data. This data is used by the host to match the
+        message to the appropriate process. If a higher level protocol
+        uses port numbers, they are assumed to be in the first 64 data
+        bits of the original datagram's data.   
+    
+    Description
+    
+        This message sends to receiver the time in UNIX epoch format with number of hops, triptime, and string of RTT information.
+    
+timeChangeStatus Message
+
+  0                   1                   2                   3
+  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | "t"           |s|  hops                                       |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | hops            |  triptime                                   |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | triptime                                                      |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | triptime        |  strRTT                                     |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+ | Internet Header + 64 bits of Original Data Datagram           |
+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+     IP Fields:
+    
+    Destination Address
+    
+    The source network and address from the original datagram's data.
+    
+    ICMP Fields:
+
+    Type
+    
+        't' a flag to indicate sendTime method
+        
+    Status
+    
+        1 bit boolean
+        
+    Hops
+    
+        4 bytes Integer of number of hops
+        
+    TripTime
+    
+        8 bytes Integer of unix epoch time format
+        
+    StrRTT
+    
+        Terminated UTF String
+    
+    Internet Header + 64 bits of Data Datagram
+    
+        The internet header plus the first 64 bits of the original
+        datagram's data. This data is used by the host to match the
+        message to the appropriate process. If a higher level protocol
+        uses port numbers, they are assumed to be in the first 64 data
+        bits of the original datagram's data.   
+        
+    Description
+    
+        This message sends to receiver the status of setTime with number of hops, triptime, and string of RTT information.
+    
+    
